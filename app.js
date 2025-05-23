@@ -42,13 +42,15 @@ var db = require('knex')({
 // movies
 // GET
 app.get('/api/movies', function(req, res) {
-    db.select('m.id','m.title', 'm.year', 'm.box_office', 'm.image')
+    db.select('m.id','m.title', 'm.year', 'director', 'm.box_office', 'm.image')
         .from('movies as m')
         .then(function(data) {
            result = {}
            result.movies=data;
            res.json(result);
-        });
+        }).catch(function (error) {
+        console.log(error)
+    });
 });
 
 //Selection by id
@@ -61,21 +63,73 @@ app.get('/api/movies/:id', function(req, res) {
             result = {}
             result.movies=data;
             res.json(result);
-        });
+        }).catch(function (error) {
+        console.log(error)
+    });
 });
+// DELETE
+app.delete('/api/movies/:id', function (req, res) {
 
+    // Como es un string lo convertimos en entero
+    let id = parseInt(req.params.id);
+    console.log('WILL DELETE' + id);
+
+    db.delete()
+        .from('movies')
+        .where('id', id)
+        .then(function (data) {
+            res.json(data);
+        }).catch(function (error) {
+        console.log(error)
+    });
+});
+// ADD
+app.post('/api/movies', function (req, res) {
+
+    let data_form = req.body;
+    console.log('app.je app.post(). Params:', data_form)
+
+    db.insert(data_form)
+        .into('movies')
+        .then(function (data) {
+
+            res.json(data)
+            console.log(data)
+        }).catch(function (error) {
+        console.log(error)
+    });
+
+});
+// Modify
+app.post('/api/movies/:id', function (req, res) {
+    let id = req.params.id;
+    let artistData = req.body;
+
+    db('movies')
+        .update(artistData)
+        .where('id', id)
+        .then(function (data) {
+            res.json(data)
+        })
+        .catch(function (error) {
+            logger.error('ERROR:', error);
+        })
+});
 
 
 // actors
 // GET
 app.get('/api/actors', function(req, res) {
-    db.select('a.id','a.name', 'a.nationality', 'a.birth_date', 'a.height', 'a.awards', 'a.social_networks', 'a.image' )
+    db.select('a.id','m.title','a.name', 'a.nationality', 'a.birth_date', 'a.height', 'a.awards', 'a.social_networks', 'a.image' )
         .from('actors as a')
+        .join('movies as m', 'a.movies_id', 'm.id')
         .then(function(data) {
             result = {}
             result.actors=data;
             res.json(result);
-        });
+        }).catch(function (error) {
+        console.log(error)
+    });
 });
 
 //Selection by id
@@ -88,7 +142,9 @@ app.get('/api/actors/:id', function(req, res) {
             result = {}
             result.actors=data;
             res.json(result);
-        });
+        }).catch(function (error) {
+        console.log(error)
+    });
 });
 //Selection by movie id
 app.get('/api/actors/movie/:id', function(req, res) {
@@ -100,10 +156,56 @@ app.get('/api/actors/movie/:id', function(req, res) {
             result = {}
             result.actors=data;
             res.json(result);
-        });
+        }).catch(function (error) {
+        console.log(error)
+    });
 });
+// DELETE
+app.delete('/api/actors/:id', function (req, res) {
 
+    let id = parseInt(req.params.id);
+    console.log('WILL DELETE' + id);
 
+    db.delete()
+        .from('actors')
+        .where('id', id)
+        .then(function (data) {
+            res.json(data);
+        }).catch(function (error) {
+        console.log(error)
+    });
+});
+// ADD
+app.post('/api/actors', function (req, res) {
+
+    let data_form = req.body;
+    console.log('app.je app.post(). Params:', data_form)
+
+    db.insert(data_form)
+        .into('actors')
+        .then(function (data) {
+
+            res.json(data)
+            console.log(data)
+        }).catch(function (error) {
+        console.log(error)
+    });
+});
+// Modify
+app.post('/api/actors/:id', function (req, res) {
+    let id = req.params.id;
+    let artistData = req.body;
+
+    db('actors')
+        .update(artistData)
+        .where('id', id)
+        .then(function (data) {
+            res.json(data)
+        })
+        .catch(function (error) {
+            logger.error('ERROR:', error);
+        })
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
