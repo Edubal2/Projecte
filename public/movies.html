@@ -12,7 +12,58 @@
             referrerpolicy="no-referrer"></script>
 </head>
 <body>
-<script id="show_movies_template" type="text/x-jsrender-template">
+<h1>Peliculas</h1>
+
+<div class="container">
+    <div class="row">
+        <!-- Modify Movie -->
+        <script id="modify_albums_template" type="text/x-jsrender-template">
+            <h1>Modify Album {{:album.id}}</h1>
+            <form id="modifyAlbumForm">
+                <label for="title">Title</label>
+                <input type="text" id="title" name="title" value="{{:album.title}}">
+                <br>
+                <label for="artists">Artist</label>
+                <select id="artists" name="artist_id">
+                    {{for artists.artists}}
+                    <option value="{{:id}}">{{:name}}</option>
+                    {{/for}}
+                </select>
+                <br>
+                <label for="image">Image</label>
+                <input type="text" id="image" name="image" value="{{:album.image}}">
+                <br>
+                <label for="description">Description</label>
+                <input type="text" id="description" name="description" value="{{:album.description}}">
+                <br>
+                <input type="submit" class="add_album_submit" value="modificar" data-id="{{:album.id}}">
+            </form>
+        </script>
+        <!-- Add Movie -->
+        <script id="add_albums_template" type="text/x-jsrender-template">
+            <h1>Insert Album</h1>
+            <form id="add_album_form">
+                <label for="title">Title</label>
+                <input type="text" id="title" name="title">
+                <br>
+                <label for="artists">Artist</label>
+                <select id="artist" name="artist_id">
+                    {{for artists}}
+                    <option value="{{:id}}">{{:name}}</option>
+                    {{/for}}
+                </select>
+                <br>
+                <label for="image">Image</label>
+                <input type="text" id="image" name="image">
+                <br>
+                <label for="description">Description</label>
+                <input type="text" id="description" name="description">
+                <br>
+                <input type="submit" id="add_album_form_submit">
+            </form>
+        </script>
+        <!-- Show Movie -->
+        <script id="show_movies_template" type="text/x-jsrender-template">
 
     <a href="#/add" class="button mainButton">Add</a>
 
@@ -49,9 +100,11 @@
     </table>
 </script>
 
-<div id="app"></div>
+        <div id="app"></div>
 
-<a href="/" class="button success mainButton">Inicio</a>
+        <a href="/" class="button success mainButton">Inicio</a>
+    </div>
+</div>
 
 <script>
     // Creacion del router como una constante
@@ -65,6 +118,7 @@
         // .on('/modify', showModifyMoviesForm)
         .on('/delete', deleteMovies)
         .resolve();
+
 
 
     // DELETE
