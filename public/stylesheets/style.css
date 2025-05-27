@@ -1,8 +1,41 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
 body {
-  padding: 50px;
+  padding: 20px 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 a {
   color: #00B7FF;
+}
+
+img {
+  width: 150px;
+  /*height: 1px;*/
+}
+
+.icon{
+  width: 50px;
+  display: block;
+  margin: auto;
+}
+
+.link {
+}
+
+#logo {
+  width: 500px;
+  height: 250px;
+}
+
+.mainButton {
+  font-size: 1.5em;
+  margin: 20px 0;
+}
+
+ul {
+  font-size: 1.3em;
 }

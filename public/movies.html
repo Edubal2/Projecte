@@ -2,9 +2,151 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Peliculas</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/picnic">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.15/jsrender.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-serialize-object/2.5.0/jquery.serialize-object.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/navigo/8.11.1/navigo.min.js"
+            referrerpolicy="no-referrer"></script>
 </head>
 <body>
+<h1>Peliculas</h1>
 
+<div class="container">
+    <div class="row">
+        <!-- Modify Movie -->
+        <script id="modify_albums_template" type="text/x-jsrender-template">
+            <h1>Modify Album {{:album.id}}</h1>
+            <form id="modifyAlbumForm">
+                <label for="title">Title</label>
+                <input type="text" id="title" name="title" value="{{:album.title}}">
+                <br>
+                <label for="artists">Artist</label>
+                <select id="artists" name="artist_id">
+                    {{for artists.artists}}
+                    <option value="{{:id}}">{{:name}}</option>
+                    {{/for}}
+                </select>
+                <br>
+                <label for="image">Image</label>
+                <input type="text" id="image" name="image" value="{{:album.image}}">
+                <br>
+                <label for="description">Description</label>
+                <input type="text" id="description" name="description" value="{{:album.description}}">
+                <br>
+                <input type="submit" class="add_album_submit" value="modificar" data-id="{{:album.id}}">
+            </form>
+        </script>
+        <!-- Add Movie -->
+        <script id="add_albums_template" type="text/x-jsrender-template">
+            <h1>Insert Album</h1>
+            <form id="add_album_form">
+                <label for="title">Title</label>
+                <input type="text" id="title" name="title">
+                <br>
+                <label for="artists">Artist</label>
+                <select id="artist" name="artist_id">
+                    {{for artists}}
+                    <option value="{{:id}}">{{:name}}</option>
+                    {{/for}}
+                </select>
+                <br>
+                <label for="image">Image</label>
+                <input type="text" id="image" name="image">
+                <br>
+                <label for="description">Description</label>
+                <input type="text" id="description" name="description">
+                <br>
+                <input type="submit" id="add_album_form_submit">
+            </form>
+        </script>
+        <!-- Show Movie -->
+        <script id="show_movies_template" type="text/x-jsrender-template">
+
+    <a href="#/add" class="button mainButton">Add</a>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Year</th>
+            <th>Director</th>
+            <th>Box Office</th>
+            <th>Image</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{for movies}}
+        <tr>
+            <td>{{:id}}</td>
+            <td>{{:title}}</td>
+            <td>{{:year}}</td>
+            <td>{{:director}}</td>
+            <td>{{:box_office}} Millones de Dolares</td>
+            <td><img src="{{:image}}"></td>
+            <td>
+                <!-- href="#" indica que el salto será a la página actual -->
+                <!-- data-id="" envía junto con el evento el valor id="" -->
+                <a href="#/modify?id={{:id}}" class="button warning">Modify</a>
+                <a href="#/delete?id={{:id}}" class="button error">Delete</a>
+            </td>
+        </tr>
+        {{/for}}
+        </tbody>
+    </table>
+</script>
+
+        <div id="app"></div>
+
+        <a href="/" class="button success mainButton">Inicio</a>
+    </div>
+</div>
+
+<script>
+    // Creacion del router como una constante
+    const router = new Navigo('/', {hash: true});
+
+    // SE definen las rutas
+    router
+        .on('/', showMovies)
+        .on('/movies.html', showMovies)
+        // .on('/add', addMovies)
+        // .on('/modify', showModifyMoviesForm)
+        .on('/delete', deleteMovies)
+        .resolve();
+
+
+
+    // DELETE
+    function deleteMovies(params) {
+
+        let id = params.params.id;
+
+        $.ajax({
+            url: '/api/movies/' + id,
+            type: 'DELETE'
+        }).then(function (result) {
+            router.navigate('/')
+        }).catch(function (error) {
+            console.log(error)
+        })
+    }
+
+    function showMovies() {
+        $.getJSON('/api/movies/', function (data) {
+
+            let html = $("#show_movies_template").render(data);
+            $("#app").html(html);
+
+        });
+    }
+    $(document).ready(function () {
+        router.navigate('/')
+    });
+</script>
 </body>
 </html>
