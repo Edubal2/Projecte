@@ -104,6 +104,8 @@
 
         let parametros = form.serialize();
 
+        console.log(parametros);
+
         $.post('/api/movies/', parametros, function (result) {
             router.navigate('/')
         }).catch(function (error) {

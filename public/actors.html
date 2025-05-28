@@ -65,14 +65,17 @@
     <div class="row">
         <!-- Add Actor -->
         <script id="add_actors_template" type="text/x-jsrender-template">
-            <h1>Insert Album</h1>
+            <h1>Insert Actor</h1>
             <form id="add_actor_form">
-                <label for="movies">Artist</label>
-                <select id="movies" name="movie_id">
+                <label for="movies">Movie</label>
+                <select id="movies" name="movies_id">
                     {{for movies}}
-                    <option value="{{:id}}">{{:name}}</option>
+                    <option value="{{:id}}">{{:title}}</option>
                     {{/for}}
                 </select>
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name">
+                <br>
                 <label for="nationality">Nationality</label>
                 <input type="text" id="nationality" name="nationality">
                 <br>
@@ -106,34 +109,40 @@
     router
         .on('/', showActors)
         .on('/actors.html', showActors)
-        // .on('/add', addActors)
+        .on('/add', addActors)
         // .on('/modify', showModifyActorsForm)
         .on('/delete', deleteActors)
         .resolve();
 
 
     // ADD
-    function addMovieForm(event) {
+    function addActorForm(event) {
         event.preventDefault();
-        let form = $("#add_movie_form");
+        let form = $("#add_actor_form");
 
         let parametros = form.serialize();
 
-        $.post('/api/movies/', parametros, function (result) {
+        console.log(parametros);
+
+        parametros = parametros
+            // Si social_networks está vacío
+            .replace(/(social_networks=)(?=&|$)/, "$1null")
+            // Si awards está vacío
+            .replace(/(awards=)(?=&|$)/, "$1null");
+
+        $.post('/api/actors/', parametros, function (result) {
             router.navigate('/')
         }).catch(function (error) {
             console.log(error)
         })
     }
 
-    function addMovies() {
+    function addActors() {
         $.getJSON('/api/movies/', function (artists) {
-            let html = $("#add_movies_template").render(artists);
+            let html = $("#add_actors_template").render(artists);
             $("#app").html(html);
 
-            $("#add_movie_form_submit").on("click", addMovieForm)
-
-
+            $("#add_actor_form_submit").on("click", addActorForm)
         });
     }
 
