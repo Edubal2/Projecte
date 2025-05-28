@@ -43,40 +43,40 @@
         <!-- Show Movie -->
         <script id="show_movies_template" type="text/x-jsrender-template">
 
-    <a href="#/add" class="button mainButton">Add</a>
+            <a href="#/add" class="button mainButton">Add</a>
 
-    <table>
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Title</th>
-            <th>Year</th>
-            <th>Director</th>
-            <th>Box Office</th>
-            <th>Image</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        {{for movies}}
-        <tr>
-            <td>{{:id}}</td>
-            <td>{{:title}}</td>
-            <td>{{:year}}</td>
-            <td>{{:director}}</td>
-            <td>{{:box_office}} Millones de Dolares</td>
-            <td><img src="{{:image}}"></td>
-            <td>
-                <!-- href="#" indica que el salto será a la página actual -->
-                <!-- data-id="" envía junto con el evento el valor id="" -->
-                <a href="#/modify?id={{:id}}" class="button warning">Modify</a>
-                <a href="#/delete?id={{:id}}" class="button error">Delete</a>
-            </td>
-        </tr>
-        {{/for}}
-        </tbody>
-    </table>
-</script>
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Year</th>
+                    <th>Director</th>
+                    <th>Box Office</th>
+                    <th>Image</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{for movies}}
+                <tr>
+                    <td>{{:id}}</td>
+                    <td>{{:title}}</td>
+                    <td>{{:year}}</td>
+                    <td>{{:director}}</td>
+                    <td>{{:box_office}} Millones de Dolares</td>
+                    <td><img src="{{:image}}"></td>
+                    <td>
+                        <!-- href="#" indica que el salto será a la página actual -->
+                        <!-- data-id="" envía junto con el evento el valor id="" -->
+                        <a href="#/modify?id={{:id}}" class="button warning">Modify</a>
+                        <a href="#/delete?id={{:id}}" class="button error">Delete</a>
+                    </td>
+                </tr>
+                {{/for}}
+                </tbody>
+            </table>
+        </script>
 
         <div id="app"></div>
 
@@ -103,6 +103,8 @@
         let form = $("#add_movie_form");
 
         let parametros = form.serialize();
+
+        console.log(parametros);
 
         $.post('/api/movies/', parametros, function (result) {
             router.navigate('/')

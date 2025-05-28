@@ -116,7 +116,6 @@ app.post('/api/movies/:id', function (req, res) {
         })
 });
 
-
 // actors
 // GET
 app.get('/api/actors', function(req, res) {
@@ -131,7 +130,6 @@ app.get('/api/actors', function(req, res) {
         console.log(error)
     });
 });
-
 //Selection by id
 app.get('/api/actors/:id', function(req, res) {
     let id = parseInt(req.params.id);
