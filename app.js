@@ -42,7 +42,7 @@ var db = require('knex')({
 // movies
 // GET
 app.get('/api/movies', function(req, res) {
-    db.select('m.id','m.title', 'm.year', 'director', 'm.box_office', 'm.image')
+    db.select('m.id','m.title', 'm.year', 'm.director', 'm.box_office', 'm.image')
         .from('movies as m')
         .then(function(data) {
            result = {}
@@ -56,7 +56,7 @@ app.get('/api/movies', function(req, res) {
 //Selection by id
 app.get('/api/movies/:id', function(req, res) {
     let id = parseInt(req.params.id);
-    db.select('m.id','m.title', 'm.year', 'm.box_office', 'm.image')
+    db.select('m.id','m.title', 'm.year', 'm.director', 'm.box_office',  'm.image')
         .from('movies as m')
         .where('m.id', id)
         .then(function(data) {
@@ -144,20 +144,7 @@ app.get('/api/actors/:id', function(req, res) {
         console.log(error)
     });
 });
-//Selection by movie id
-app.get('/api/actors/movie/:id', function(req, res) {
-    let id = parseInt(req.params.id);
-    db.select('a.id', 'a.movies_id', 'a.name', 'a.nationality', 'a.birth_date', 'a.height', 'a.awards', 'a.social_networks', 'a.image' )
-        .from('actors as a')
-        .where('a.movies_id', id)
-        .then(function(data) {
-            result = {}
-            result.actors=data;
-            res.json(result);
-        }).catch(function (error) {
-        console.log(error)
-    });
-});
+
 // DELETE
 app.delete('/api/actors/:id', function (req, res) {
 
@@ -192,10 +179,10 @@ app.post('/api/actors', function (req, res) {
 // Modify
 app.post('/api/actors/:id', function (req, res) {
     let id = req.params.id;
-    let artistData = req.body;
+    let actorData = req.body;
 
     db('actors')
-        .update(artistData)
+        .update(albumData)
         .where('id', id)
         .then(function (data) {
             res.json(data)
