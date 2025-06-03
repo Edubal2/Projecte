@@ -12,95 +12,96 @@
             referrerpolicy="no-referrer"></script>
 </head>
 <body>
-<script id="show_actors_template" type="text/x-jsrender-template">
+    <div class="container">
+        <div class="row">
+            <!-- Modify Actor -->
+            <!-- Add Actor -->
+            <script id="add_actors_template" type="text/x-jsrender-template">
+                <h1>Insert Actor</h1>
+                <form id="add_actor_form">
+                    <label for="movies">Movie</label>
+                    <select id="movie" name="movies_id">
+                        {{for movies}}
+                        <option value="{{:id}}">{{:title}}</option>
+                        {{/for}}
+                    </select>
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name">
+                    <br>
+                    <label for="nationality">Nationality</label>
+                    <input type="text" id="nationality" name="nationality">
+                    <br>
+                    <label for="birth_date">Birth Date</label>
+                    <input type="date" id="birth_date" name="birth_date">
+                    <br>
+                    <label for="height">Height in cm</label>
+                    <input type="number" id="height" name="height">
+                    <br>
+                    <label for="awards">Awards</label>
+                    <input type="text" id="awards" name="awards">
+                    <br>
+                    <label for="social_networks">Social Networks</label>
+                    <input type="text" id="social_networks" name="social_networks">
+                    <br>
+                    <label for="image">Image</label>
+                    <input type="text" id="image" name="image">
+                    <br>
+                    <input type="submit" id="add_actor_form_submit">
+                </form>
+            </script>
+            <!-- Show Actors-->
+            <script id="show_actors_template" type="text/x-jsrender-template">
 
-    <a href="#/add" class="button mainButton">Add</a>
+                <a href="#/add" class="button mainButton">Add</a>
 
-    <table>
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Movie</th>
-            <th>Nationality</th>
-            <th>Birth Date</th>
-            <th>Height</th>
-            <th>Awards</th>
-            <th>Social Networks</th>
-            <th>Image</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        {{for actors}}
-        <tr>
-            <td>{{:id}}</td>
-            <td>{{:name}}</td>
-            <td>{{:title}}</td>
-            <td>{{:nationality}}</td>
-            <td>{{:birth_date}}</td>
-            <td>{{:height}} cm</td>
-            <td>{{:awards}}</td>
-            {{if social_networks != null}}
-            <td><a href="{{:social_networks}}" target="_blank"><img src="/images/instagram.png" alt="instagram" class="icon"></a></td>
-            {{else}}
-            <td></td>
-            {{/if}}
-            <td><img src="{{:image}}"></td>
-            <td>
-                <!-- href="#" indica que el salto será a la página actual -->
-                <!-- data-id="" envía junto con el evento el valor id="" -->
-                <a href="#/modify?id={{:id}}" class="button warning">Modify</a>
-                <a href="#/delete?id={{:id}}" class="button error">Delete</a>
-            </td>
-        </tr>
-        {{/for}}
-        </tbody>
-    </table>
-</script>
-
-<div id="app"></div>
-
-<div class="container">
-    <div class="row">
-        <!-- Add Actor -->
-        <script id="add_actors_template" type="text/x-jsrender-template">
-            <h1>Insert Actor</h1>
-            <form id="add_actor_form">
-                <label for="movies">Movie</label>
-                <select id="movies" name="movies_id">
-                    {{for movies}}
-                    <option value="{{:id}}">{{:title}}</option>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Movie</th>
+                        <th>Nationality</th>
+                        <th>Birth Date</th>
+                        <th>Height</th>
+                        <th>Awards</th>
+                        <th>Social Networks</th>
+                        <th>Image</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{for actors}}
+                    <tr>
+                        <td>{{:id}}</td>
+                        <td>{{:name}}</td>
+                        <td>{{:title}}</td>
+                        <td>{{:nationality}}</td>
+                        <td>{{:birth_date}}</td>
+                        <td>{{:height}} cm</td>
+                        <td>{{:awards}}</td>
+                        {{if social_networks != null}}
+                        <td><a href="{{:social_networks}}" target="_blank"><img src="/images/instagram.png" alt="instagram" class="icon"></a></td>
+                        {{else}}
+                        <td></td>
+                        {{/if}}
+                        <td><img src="{{:image}}"></td>
+                        <td>
+                            <!-- href="#" indica que el salto será a la página actual -->
+                            <!-- data-id="" envía junto con el evento el valor id="" -->
+                            <a href="#/modify?id={{:id}}" class="button warning">Modify</a>
+                            <a href="#/delete?id={{:id}}" class="button error">Delete</a>
+                        </td>
+                    </tr>
                     {{/for}}
-                </select>
-                <label for="name">Name</label>
-                <input type="text" id="name" name="name">
-                <br>
-                <label for="nationality">Nationality</label>
-                <input type="text" id="nationality" name="nationality">
-                <br>
-                <label for="birth_date">Birth Date</label>
-                <input type="date" id="birth_date" name="birth_date">
-                <br>
-                <label for="height">Height in cm</label>
-                <input type="number" id="height" name="height">
-                <br>
-                <label for="awards">Awards</label>
-                <input type="text" id="awards" name="awards">
-                <br>
-                <label for="social_networks">Social Networks</label>
-                <input type="text" id="social_networks" name="social_networks">
-                <br>
-                <label for="image">Image</label>
-                <input type="text" id="image" name="image">
-                <br>
-                <input type="submit" id="add_actor_form_submit">
-            </form>
-        </script>
-        <!-- Show Actors-->
-        <a href="/" class="button success mainButton">Inicio</a>
+                    </tbody>
+                </table>
+            </script>
+
+            <a href="/" class="button success mainButton">Inicio</a>
+
+            <div id="app"></div>
+        </div>
     </div>
-</div>
 <script>
     // Creacion del router como una constante
     const router = new Navigo('/', {hash: true});
@@ -110,7 +111,7 @@
         .on('/', showActors)
         .on('/actors.html', showActors)
         .on('/add', addActors)
-        // .on('/modify', showModifyActorsForm)
+       // .on('/modify', showModifyActorsForm)
         .on('/delete', deleteActors)
         .resolve();
 
@@ -124,12 +125,6 @@
 
         console.log(parametros);
 
-        parametros = parametros
-            // Si social_networks está vacío
-            .replace(/(social_networks=)(?=&|$)/, "$1null")
-            // Si awards está vacío
-            .replace(/(awards=)(?=&|$)/, "$1null");
-
         $.post('/api/actors/', parametros, function (result) {
             router.navigate('/')
         }).catch(function (error) {
@@ -138,12 +133,12 @@
     }
 
     function addActors() {
-        $.getJSON('/api/movies/', function (artists) {
-            let html = $("#add_actors_template").render(artists);
+       // $.getJSON('/api/movies/', function (movies) { // api/movies/ para elegir en la lista de movies
+            let html = $("#add_actors_template")//.render(movies);
             $("#app").html(html);
 
             $("#add_actor_form_submit").on("click", addActorForm)
-        });
+       // });
     }
 
     // DELETE
@@ -161,6 +156,7 @@
         })
     }
 
+    // GET
     function showActors() {
         $.getJSON('/api/actors/', function (data) {
 
