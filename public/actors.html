@@ -15,12 +15,45 @@
     <div class="container">
         <div class="row">
             <!-- Modify Actor -->
+            <script id="modify_actors_template" type="text/x-jsrender-template">
+                <h1>Modify {{:actor.id}}</h1>
+                <form id="modifyActorForm">
+                    <label for="movies">Movie</label>
+                    <select id="movies" name="movies_id">
+                        {{for movies.movies}}
+                        <option value="{{:id}}">{{:title}}</option>
+                        {{/for}}
+                    </select>
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" value="{{:actor.name}}">
+                    <br>
+                    <label for="nationality">Nationality</label>
+                    <input type="text" id="nationality" name="nationality" value="{{:actor.nationality}}">
+                    <br>
+                    <label for="birth_date">Birth Date</label>
+                    <input type="date" id="birth_date" name="birth_date" value="{{:actor.birth_date}}">
+                    <br>
+                    <label for="height">Height in cm</label>
+                    <input type="number" id="height" name="height" value="{{:actor.height}}">
+                    <br>
+                    <label for="awards">Awards</label>
+                    <input type="text" id="awards" name="awards" value="{{:actor.awards}}">
+                    <br>
+                    <label for="social_networks">Social Networks</label>
+                    <input type="text" id="social_networks" name="social_networks" value="{{:actor.social_networks}}">
+                    <br>
+                    <label for="image">Image</label>
+                    <input type="text" id="image" name="image" value="{{:actor.image}}">
+                    <br>
+                    <input type="submit" class="add_actor_submit" value="modificar" data-id="{{:actor.id}}">
+                </form>
+            </script>
             <!-- Add Actor -->
             <script id="add_actors_template" type="text/x-jsrender-template">
                 <h1>Insert Actor</h1>
                 <form id="add_actor_form">
                     <label for="movies">Movie</label>
-                    <select id="movie" name="movies_id">
+                    <select id="movies" name="movies_id">
                         {{for movies}}
                         <option value="{{:id}}">{{:title}}</option>
                         {{/for}}
@@ -111,7 +144,7 @@
         .on('/', showActors)
         .on('/actors.html', showActors)
         .on('/add', addActors)
-       // .on('/modify', showModifyActorsForm)
+        .on('/modify', showModifyActorsForm)
         .on('/delete', deleteActors)
         .resolve();
 
@@ -133,12 +166,12 @@
     }
 
     function addActors() {
-       // $.getJSON('/api/movies/', function (movies) { // api/movies/ para elegir en la lista de movies
-            let html = $("#add_actors_template")//.render(movies);
+        $.getJSON('/api/movies/', function (movies) { // api/movies/ para elegir en la lista de movies
+            let html = $("#add_actors_template").render(movies);
             $("#app").html(html);
 
             $("#add_actor_form_submit").on("click", addActorForm)
-       // });
+        });
     }
 
     // DELETE
@@ -154,6 +187,50 @@
         }).catch(function (error) {
             console.log(error)
         })
+    }
+
+    // MODIFY
+    function getModifyActorsFormParams(event) {
+        event.preventDefault();
+
+        let form = $('#modifyActorForm');
+
+        let parameters = form.serializeObject();
+
+        let id = $(this).data("id");
+
+        $.post('/api/actors/' + id, parameters, function (data) {
+            showActors()
+        }).catch(function (error) {
+            console.log(error)
+        });
+
+
+    }
+
+    function showModifyActorsForm(params) {
+
+        let id = params.params.id;
+
+        $.getJSON('/api/actors/' + id, function (dataActors) {
+            $.getJSON('/api/movies/', function (dataMovies) {
+
+
+            let actor = dataActors.actors[0];
+
+            let data = {
+                'actor': actor,
+                'movies': dataMovies,
+            };
+            console.log(data);
+
+            let html = $("#modify_actors_template").render(data);
+            $("#app").html(html);
+
+            $('.add_actor_submit').on('click', getModifyActorsFormParams);
+
+            });
+        });
     }
 
     // GET
