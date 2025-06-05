@@ -14,37 +14,46 @@
 <body>
     <div class="container">
         <div class="row">
+            <h1>Actores</h1>
             <!-- Modify Actor -->
             <script id="modify_actors_template" type="text/x-jsrender-template">
                 <h1>Modify {{:actor.id}}</h1>
                 <form id="modifyActorForm">
                     <label for="movies">Movie</label>
                     <select id="movies" name="movies_id">
-                        {{for movies.movies}}
-                        <option value="{{:id}}">{{:title}}</option>
+                        {{for movies.movies}}  <!--Marca selected si esta película es la que tiene el actor-->
+                        <option value="{{:id}}" {{if ~root.actor.movies_id == id}}selected{{/if}}>{{:title}}</option>
                         {{/for}}
                     </select>
+
                     <label for="name">Name</label>
                     <input type="text" id="name" name="name" value="{{:actor.name}}">
                     <br>
+
                     <label for="nationality">Nationality</label>
                     <input type="text" id="nationality" name="nationality" value="{{:actor.nationality}}">
                     <br>
+
                     <label for="birth_date">Birth Date</label>
                     <input type="date" id="birth_date" name="birth_date" value="{{:actor.birth_date}}">
                     <br>
+
                     <label for="height">Height in cm</label>
                     <input type="number" id="height" name="height" value="{{:actor.height}}">
                     <br>
+
                     <label for="awards">Awards</label>
                     <input type="text" id="awards" name="awards" value="{{:actor.awards}}">
                     <br>
+
                     <label for="social_networks">Social Networks</label>
                     <input type="text" id="social_networks" name="social_networks" value="{{:actor.social_networks}}">
                     <br>
+
                     <label for="image">Image</label>
                     <input type="text" id="image" name="image" value="{{:actor.image}}">
                     <br>
+
                     <input type="submit" class="add_actor_submit" value="modificar" data-id="{{:actor.id}}">
                 </form>
             </script>
@@ -130,9 +139,9 @@
                 </table>
             </script>
 
-            <a href="/" class="button success mainButton">Inicio</a>
-
             <div id="app"></div>
+
+            <a href="/" class="button success mainButton">Inicio</a>
         </div>
     </div>
 <script>
@@ -200,7 +209,7 @@
         let id = $(this).data("id");
 
         $.post('/api/actors/' + id, parameters, function (data) {
-            showActors()
+            router.navigate('/')
         }).catch(function (error) {
             console.log(error)
         });
@@ -216,7 +225,7 @@
             $.getJSON('/api/movies/', function (dataMovies) {
 
 
-            let actor = dataActors.actors[0];
+            let actor = dataActors[0];
 
             let data = {
                 'actor': actor,

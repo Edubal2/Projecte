@@ -137,9 +137,7 @@ app.get('/api/actors/:id', function(req, res) {
         .from('actors as a')
         .where('a.id', id)
         .then(function(data) {
-            result = {}
-            result.actors=data;
-            res.json(result);
+            res.json(data);
         }).catch(function (error) {
         console.log(error)
     });
@@ -182,7 +180,7 @@ app.post('/api/actors/:id', function (req, res) {
     let actorData = req.body;
 
     db('actors')
-        .update(albumData)
+        .update(actorData)
         .where('id', id)
         .then(function (data) {
             res.json(data)
