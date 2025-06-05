@@ -29,11 +29,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 //se inicializa knex con sqlite3
 
 var db = require('knex')({
-      client: 'sqlite3',
+      client: 'mysql2',
       connection: {
-        filename: 'database.sqlite'
+          host: 'localhost',   // o '127.0.0.1'
+          port: 3306,
+          user: 'user',
+          password: 'user',
+          database: 'Projecte'
       },
-      useNullAsDefault: true,
     }
 );
 
@@ -60,9 +63,7 @@ app.get('/api/movies/:id', function(req, res) {
         .from('movies as m')
         .where('m.id', id)
         .then(function(data) {
-            result = {}
-            result.movies=data;
-            res.json(result);
+            res.json(data);
         }).catch(function (error) {
         console.log(error)
     });
