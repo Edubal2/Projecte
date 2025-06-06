@@ -5,7 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 //Se carga el módulo de sqlite3
-var sqlite3 = require('sqlite3');
+
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -29,14 +29,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 //se inicializa knex con sqlite3
 
 var db = require('knex')({
-      client: 'mysql2',
-      connection: {
-          host: 'localhost',   // o '127.0.0.1'
-          port: 3306,
-          user: 'user',
-          password: 'user',
-          database: 'Projecte'
-      },
+        client: 'mysql2',
+        connection: {
+            host: 'localhost',   // o '127.0.0.1'
+            port: 3306,
+            user: 'user',
+            password: 'user',
+            database: 'Projecte'
+        },
     }
 );
 
@@ -48,9 +48,9 @@ app.get('/api/movies', function(req, res) {
     db.select('m.id','m.title', 'm.year', 'm.director', 'm.box_office', 'm.image')
         .from('movies as m')
         .then(function(data) {
-           result = {}
-           result.movies=data;
-           res.json(result);
+            result = {}
+            result.movies=data;
+            res.json(result);
         }).catch(function (error) {
         console.log(error)
     });
@@ -120,9 +120,11 @@ app.post('/api/movies/:id', function (req, res) {
 // actors
 // GET
 app.get('/api/actors', function(req, res) {
-    db.select('a.id','m.title','a.name', 'a.nationality', 'a.birth_date', 'a.height', 'a.awards', 'a.social_networks', 'a.image' )
+    db.select('a.id','m.title','a.name', 'a.nationality', 'a.height', 'a.awards', 'a.social_networks', 'a.image',
+        db.raw("DATE_FORMAT(a.birth_date, '%Y-%m-%d') as birth_date")
+    )
         .from('actors as a')
-        .join('movies as m', 'a.movies_id', 'm.id')
+        .leftJoin('movies as m', 'a.movies_id', 'm.id')
         .then(function(data) {
             result = {}
             result.actors=data;
@@ -193,18 +195,18 @@ app.post('/api/actors/:id', function (req, res) {
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  next(createError(404));
+    next(createError(404));
 });
 
 // error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+    // set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+    // render the error page
+    res.status(err.status || 500);
+    res.render('error');
 });
 
 module.exports = app;

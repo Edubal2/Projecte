@@ -1,50 +1,52 @@
 @import url('https://fonts.googleapis.com/css2?family=Lugrasimo&display=swap');
+
 * {
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-  padding: 20px 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  background: #e8e0da;
+    padding: 20px 50px;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    background: #e8e0da;
 }
 
-h1{
-  font-family: "Lugrasimo", cursive;
-  font-weight: 1000;
-  font-style: normal;
-  font-size: 3.5em;
+h1 {
+    font-family: "Lugrasimo", cursive;
+    font-weight: 1000;
+    font-style: normal;
+    font-size: 3.5em;
 }
+
 a {
-  color: #00B7FF;
-  font-weight: bold;
-  font-size: 1.5em;
+    color: #00B7FF;
+    font-weight: bold;
+    font-size: 1.5em;
 }
 
 td img {
-  width: 150px;
+    width: 150px;
 }
 
-.icon{
-  width: 50px;
-  display: block;
-  margin: auto;
+.icon {
+    width: 50px;
+    display: block;
+    margin: auto;
 }
 
 .link {
 }
 
 #logo {
-  width: 500px;
-  height: 250px;
+    width: 500px;
+    height: 250px;
 }
 
 .mainButton {
-  font-size: 1.5em;
-  margin: 20px 0;
+    font-size: 1.5em;
+    margin: 20px 0;
 }
 
 ul {
-  font-size: 1.3em;
+    font-size: 1.3em;
 }

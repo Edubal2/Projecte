@@ -173,28 +173,25 @@
         }).catch(function (error) {
             console.log(error)
         });
-
-
     }
 
     function showModifyMoviesForm(params) {
 
         let id = params.params.id;
 
-            $.getJSON('/api/movies/' + id, function (dataMovies) {
+        $.getJSON('/api/movies/' + id, function (dataMovies) {
 
-                    let movie = dataMovies[0];
+            let movie = dataMovies[0];
 
-                    let data = {'movie': movie,};
-                    console.log(data);
+            let data = {'movie': movie,};
+            console.log(data);
 
-                    let html = $("#modify_movies_template").render(data);
-                    $("#app").html(html);
+            let html = $("#modify_movies_template").render(data);
+            $("#app").html(html);
 
-                    $('.add_movie_submit').on('click', getModifyMoviesFormParams);
+            $('.add_movie_submit').on('click', getModifyMoviesFormParams);
 
-            });
-
+        });
     }
 
     // GET
@@ -206,6 +203,7 @@
 
         });
     }
+
     $(document).ready(function () {
         router.navigate('/')
     });
