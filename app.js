@@ -17,7 +17,7 @@ app.set('view engine', 'pug');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -37,22 +37,21 @@ const actors = db.get('actors');
 
 // movies
 // GET
-app.get('/api/movies', function(req, res) {
-// codigo de knex o de monk
+app.get('/api/movies', function (req, res) {
     movies.find({})
-        .then(function(data) {
+        .then(function (data) {
             result = {}
-            result.movies=data;
+            result.movies = data;
             res.json(result);
         }).catch(function (error) {
         console.log(error)
     });
 });
 //Selection by id
-app.get('/api/movies/:_id', function(req, res) {
+app.get('/api/movies/:_id', function (req, res) {
     let _id = req.params._id;
-    movies.find({'_id':_id})
-        .then(function(data) {
+    movies.find({'_id': _id})
+        .then(function (data) {
             res.json(data);
         }).catch(function (error) {
         console.log(error)
@@ -63,7 +62,7 @@ app.delete('/api/movies/:_id', function (req, res) {
 
     // Como es un string lo convertimos en entero
     let _id = req.params._id;
-    let filter = {'_id':_id}
+    let filter = {'_id': _id}
 
     movies.remove(filter)
         .then(function (data) {
@@ -76,11 +75,9 @@ app.delete('/api/movies/:_id', function (req, res) {
 app.post('/api/movies', function (req, res) {
 
     let data_form = req.body;
-    console.log('app.je app.post(). Params:', data_form)
 
     movies.insert(data_form)
         .then(function (data) {
-
             res.json(data)
             console.log(data)
         }).catch(function (error) {
@@ -92,11 +89,9 @@ app.post('/api/movies', function (req, res) {
 app.post('/api/movies/:_id', function (req, res) {
     let _id = req.params._id;
     let data_form = req.body;
-    console.log('app.je app.post(). Params:', data_form)
-    console.log('hola')
-    let filter = {'_id':_id}
+    let filter = {'_id': _id}
 
-    movies.update(filter, {$set:data_form})
+    movies.update(filter, {$set: data_form})
         .then(function (data) {
             res.json(data)
         })
@@ -107,22 +102,22 @@ app.post('/api/movies/:_id', function (req, res) {
 
 // actors
 // GET
-app.get('/api/actors', function(req, res) {
+app.get('/api/actors', function (req, res) {
 
     actors.find({})
-        .then(function(data) {
+        .then(function (data) {
             result = {}
-            result.actors=data;
+            result.actors = data;
             res.json(result);
         }).catch(function (error) {
         console.log(error)
     });
 });
 //Selection by id
-app.get('/api/actors/:_id', function(req, res) {
+app.get('/api/actors/:_id', function (req, res) {
     let _id = req.params._id;
-    actors.find({'_id':_id})
-        .then(function(data) {
+    actors.find({'_id': _id})
+        .then(function (data) {
             res.json(data);
         }).catch(function (error) {
         console.log(error)
@@ -132,7 +127,7 @@ app.get('/api/actors/:_id', function(req, res) {
 app.delete('/api/actors/:_id', function (req, res) {
 
     let _id = req.params._id;
-    let filter = {'_id':_id}
+    let filter = {'_id': _id}
 
     actors.remove(filter)
         .then(function (data) {
@@ -145,7 +140,6 @@ app.delete('/api/actors/:_id', function (req, res) {
 app.post('/api/actors', function (req, res) {
 
     let data_form = req.body;
-    console.log('app.je app.post(). Params:', data_form)
 
     actors.insert(data_form)
         .then(function (data) {
@@ -160,11 +154,9 @@ app.post('/api/actors', function (req, res) {
 app.post('/api/actors/:_id', function (req, res) {
     let _id = req.params._id;
     let data_form = req.body;
-    console.log('app.je app.post(). Params:', data_form)
-    console.log('hola')
-    let filter = {'_id':_id}
+    let filter = {'_id': _id}
 
-    actors.update(filter, {$set:data_form})
+    actors.update(filter, {$set: data_form})
         .then(function (data) {
             res.json(data)
         })
@@ -174,19 +166,19 @@ app.post('/api/actors/:_id', function (req, res) {
 });
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
+app.use(function (req, res, next) {
+    next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+app.use(function (err, req, res, next) {
+    // set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+    // render the error page
+    res.status(err.status || 500);
+    res.render('error');
 });
 
 module.exports = app;
