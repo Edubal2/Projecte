@@ -2,7 +2,7 @@
 ## Versión SQL con Docker
 ### Eduard Balici 1DAW
 
-En esta versión la base de datos e un contenedor docker de PHPMyAmdmin con MySQL
+En esta versión la base de datos ne un contenedor docker de PHPMyAmdmin con MySQL
 
 Para iniciar el contenedor ejecutamos en la terminal del proyecto.
 
