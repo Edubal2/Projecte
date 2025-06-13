@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Actores</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/picnic">
     <link rel="stylesheet" href="/stylesheets/style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.15/jsrender.min.js"></script>
@@ -16,20 +17,21 @@
             <h1>Actores</h1>
             <!-- Modify Actor -->
             <script id="modify_actors_template" type="text/x-jsrender-template">
-                <h1>Modify {{:actor.id}}</h1>
+                <h1>Modificar Actor {{:actor.id}}</h1>
                 <form id="modifyActorForm">
-                    <label for="movies">Movie</label>
+
+                    <label for="movies">Película</label>
                     <select id="movies" name="movies_id">
                         {{for movies.movies}}  <!--Marca selected si esta película es la que tiene el actor-->
                         <option value="{{:id}}" {{if ~root.actor.movies_id == id}}selected{{/if}}>{{:title}}</option>
                         {{/for}}
                     </select>
 
-                    <label for="name">Name</label>
+                    <label for="name">Nombre</label>
                     <input type="text" id="name" name="name" value="{{:actor.name}}">
                     <br>
 
-                    <label for="nationality">Nationality</label>
+                    <label for="nationality">Nacionalidad</label>
                     <input type="text" id="nationality" name="nationality" value="{{:actor.nationality}}">
                     <br>
 
@@ -37,30 +39,30 @@
                     <input type="date" id="birth_date" name="birth_date" value="{{:actor.birth_date}}">
                     <br>
 
-                    <label for="height">Height in cm</label>
+                    <label for="height">Altura en cm</label>
                     <input type="number" id="height" name="height" value="{{:actor.height}}">
                     <br>
 
-                    <label for="awards">Awards</label>
+                    <label for="awards">Premios</label>
                     <input type="text" id="awards" name="awards" value="{{:actor.awards}}">
                     <br>
 
-                    <label for="social_networks">Social Networks</label>
+                    <label for="social_networks">Redes Sociales</label>
                     <input type="text" id="social_networks" name="social_networks" value="{{:actor.social_networks}}">
                     <br>
 
-                    <label for="image">Image</label>
+                    <label for="image">Imagen</label>
                     <input type="text" id="image" name="image" value="{{:actor.image}}">
                     <br>
 
-                    <input type="submit" class="add_actor_submit" value="Modificar" data-id="{{:actor.id}}">
+                    <input type="submit" class="add_actor_submit button warning" value="Modificar" data-id="{{:actor.id}}">
 
                     <a href="#/" class="button success mainButton">Cancelar</a>
                 </form>
             </script>
             <!-- Add Actor -->
             <script id="add_actors_template" type="text/x-jsrender-template">
-                <h1>Insert Actor</h1>
+                <h1>Insertar Actor</h1>
                 <form id="add_actor_form">
                     <label for="movies">Movie</label>
                     <select id="movies" name="movies_id">
@@ -69,44 +71,44 @@
                         {{/for}}
                     </select>
 
-                    <label for="name">Name</label>
+                    <label for="name">Nombre</label>
                     <input type="text" id="name" name="name">
                     <br>
 
-                    <label for="nationality">Nationality</label>
+                    <label for="nationality">Nacionalidad</label>
                     <input type="text" id="nationality" name="nationality">
                     <br>
 
-                    <label for="birth_date">Birth Date</label>
+                    <label for="birth_date">Fecha de nacimiento </label>
                     <input type="date" id="birth_date" name="birth_date">
                     <br>
 
-                    <label for="height">Height in cm</label>
+                    <label for="height">Altura en cm</label>
                     <input type="number" id="height" name="height">
                     <br>
 
-                    <label for="awards">Awards</label>
+                    <label for="awards">Premios</label>
                     <input type="text" id="awards" name="awards">
                     <br>
 
-                    <label for="social_networks">Social Networks</label>
+                    <label for="social_networks">Redes Sociales </label>
                     <input type="text" id="social_networks" name="social_networks">
                     <br>
 
-                    <label for="image">Image</label>
+                    <label for="image">Imagen</label>
                     <input type="text" id="image" name="image">
                     <br>
 
-                    <input type="submit" id="add_actor_form_submit" value="Añadir">
+                    <input class="button blue" type="submit" id="add_actor_form_submit" value="Añadir">
 
-                    <a href="#/" class="button success mainButton">Cancelar</a>
+                    <a href="#/" class="button success">Cancelar</a>
 
                 </form>
             </script>
             <!-- Show Actors-->
             <script id="show_actors_template" type="text/x-jsrender-template">
 
-                <a href="#/add" class="button mainButton">Añadir</a>
+                <a href="#/add" class="button blue">Añadir</a>
 
                 <a href="/" class="button success mainButton">Inicio</a>
 
@@ -114,15 +116,15 @@
                     <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Name</th>
-                        <th>Movie</th>
-                        <th>Nationality</th>
-                        <th>Birth Date</th>
-                        <th>Height</th>
-                        <th>Awards</th>
-                        <th>Social Networks</th>
-                        <th>Image</th>
-                        <th>Actions</th>
+                        <th>Nombre</th>
+                        <th>Película</th>
+                        <th>Nacionalidad</th>
+                        <th>Fecha de nacimiento</th>
+                        <th>Altura</th>
+                        <th>Premios</th>
+                        <th>Redes Sociales</th>
+                        <th>Imagen</th>
+                        <th>Acciones</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -135,17 +137,15 @@
                         <td>{{:birth_date}}</td>
                         <td>{{:height}} cm</td>
                         <td>{{:awards}}</td>
-                        {{if social_networks != null}}
+                        {{if social_networks}}
                         <td><a href="{{:social_networks}}" target="_blank"><img src="/images/instagram.png" alt="instagram" class="icon"></a></td>
                         {{else}}
                         <td></td>
                         {{/if}}
                         <td><img src="{{:image}}"></td>
                         <td>
-                            <!-- href="#" indica que el salto será a la página actual -->
-                            <!-- data-id="" envía junto con el evento el valor id="" -->
-                            <a href="#/modify?id={{:id}}" class="button warning">Modify</a>
-                            <a href="#/delete?id={{:id}}" class="button error">Delete</a>
+                            <a href="#/modify?id={{:id}}" class="button warning">Modificar</a>
+                            <a href="#/delete?id={{:id}}" class="button error">Eliminar</a>
                         </td>
                     </tr>
                     {{/for}}
@@ -155,14 +155,13 @@
 
             <div id="app"></div>
 
-
         </div>
     </div>
 <script>
     // Creacion del router como una constante
     const router = new Navigo('/', {hash: true});
 
-    // SE definen las rutas
+    // Se definen las rutas
     router
         .on('/', showActors)
         .on('/actors.html', showActors)
