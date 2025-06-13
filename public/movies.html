@@ -126,7 +126,7 @@
     // Creacion del router como una constante
     const router = new Navigo('/', {hash: true});
 
-    // SE definen las rutas
+    // Se definen las rutas
     router
         .on('/', showMovies)
         .on('/movies.html', showMovies)
@@ -142,8 +142,6 @@
 
         let parametros = form.serialize();
 
-        console.log(parametros);
-
         $.post('/api/movies/', parametros, function (result) {
             router.navigate('/')
         }).catch(function (error) {
@@ -152,12 +150,12 @@
     }
 
     function addMovies() {
+
         $.getJSON('/api/movies/', function (movies) {
             let html = $("#add_movies_template").render(movies);
             $("#app").html(html);
 
             $("#add_movie_form_submit").on("click", addMovieForm)
-
 
         });
     }
@@ -166,12 +164,12 @@
     function deleteMovies(params) {
 
         let id = params.params.id;
-
         $.ajax({
             url: '/api/movies/' + id,
             type: 'DELETE'
         }).then(function (result) {
             router.navigate('/')
+
         }).catch(function (error) {
             console.log(error)
         })
@@ -188,7 +186,7 @@
         let id = $(this).data("id");
 
         $.post('/api/movies/' + id, parameters, function (data) {
-            showMovies()
+            router.navigate('/')
         }).catch(function (error) {
             console.log(error)
         });
@@ -203,7 +201,6 @@
             let movie = dataMovies[0];
 
             let data = {'movie': movie,};
-            console.log(data);
 
             let html = $("#modify_movies_template").render(data);
             $("#app").html(html);

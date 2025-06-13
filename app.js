@@ -18,7 +18,7 @@ app.set('view engine', 'pug');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -31,7 +31,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 var db = require('knex')({
         client: 'mysql2',
         connection: {
-            host: 'localhost',   // o '127.0.0.1'
+            host: '127.0.0.1',   // o '127.0.0.1'
             port: 3306,
             user: 'user',
             password: 'user',
@@ -44,12 +44,12 @@ var db = require('knex')({
 
 // movies
 // GET
-app.get('/api/movies', function(req, res) {
-    db.select('m.id','m.title', 'm.year', 'm.director', 'm.box_office', 'm.image')
+app.get('/api/movies', function (req, res) {
+    db.select('m.id', 'm.title', 'm.year', 'm.director', 'm.box_office', 'm.image')
         .from('movies as m')
-        .then(function(data) {
+        .then(function (data) {
             result = {}
-            result.movies=data;
+            result.movies = data;
             res.json(result);
         }).catch(function (error) {
         console.log(error)
@@ -57,12 +57,12 @@ app.get('/api/movies', function(req, res) {
 });
 
 //Selection by id
-app.get('/api/movies/:id', function(req, res) {
+app.get('/api/movies/:id', function (req, res) {
     let id = parseInt(req.params.id);
-    db.select('m.id','m.title', 'm.year', 'm.director', 'm.box_office',  'm.image')
+    db.select('m.id', 'm.title', 'm.year', 'm.director', 'm.box_office', 'm.image')
         .from('movies as m')
         .where('m.id', id)
-        .then(function(data) {
+        .then(function (data) {
             res.json(data);
         }).catch(function (error) {
         console.log(error)
@@ -103,7 +103,7 @@ app.post('/api/movies', function (req, res) {
 });
 // Modify
 app.post('/api/movies/:id', function (req, res) {
-    let id = req.params.id;
+    let id = parseInt(req.params.id);
     let artistData = req.body;
 
     db('movies')
@@ -119,27 +119,28 @@ app.post('/api/movies/:id', function (req, res) {
 
 // actors
 // GET
-app.get('/api/actors', function(req, res) {
-    db.select('a.id','m.title','a.name', 'a.nationality', 'a.height', 'a.awards', 'a.social_networks', 'a.image',
+app.get('/api/actors', function (req, res) {
+    db.select('a.id', 'm.title', 'a.name', 'a.nationality', 'a.height', 'a.awards', 'a.social_networks', 'a.image',
         db.raw("DATE_FORMAT(a.birth_date, '%Y-%m-%d') as birth_date")
+        // se asegura que le formato de date es dd/mm/yyyy
     )
         .from('actors as a')
         .leftJoin('movies as m', 'a.movies_id', 'm.id')
-        .then(function(data) {
+        .then(function (data) {
             result = {}
-            result.actors=data;
+            result.actors = data;
             res.json(result);
         }).catch(function (error) {
         console.log(error)
     });
 });
 //Selection by id
-app.get('/api/actors/:id', function(req, res) {
+app.get('/api/actors/:id', function (req, res) {
     let id = parseInt(req.params.id);
-    db.select('a.id', 'a.movies_id', 'a.name', 'a.nationality', 'a.birth_date', 'a.height', 'a.awards', 'a.social_networks', 'a.image' )
+    db.select('a.id', 'a.movies_id', 'a.name', 'a.nationality', 'a.birth_date', 'a.height', 'a.awards', 'a.social_networks', 'a.image')
         .from('actors as a')
         .where('a.id', id)
-        .then(function(data) {
+        .then(function (data) {
             res.json(data);
         }).catch(function (error) {
         console.log(error)
@@ -179,7 +180,7 @@ app.post('/api/actors', function (req, res) {
 });
 // Modify
 app.post('/api/actors/:id', function (req, res) {
-    let id = req.params.id;
+    let id = parseInt(req.params.id);
     let actorData = req.body;
 
     db('actors')
@@ -194,12 +195,12 @@ app.post('/api/actors/:id', function (req, res) {
 });
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
     next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
     // set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};

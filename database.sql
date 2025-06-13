@@ -4,7 +4,7 @@ USE
 Projecte;
 
 -- movies table
-CREATE TABLE movies
+CREATE TABLE IF NOT EXISTS movies
 (
     `id`         INT AUTO_INCREMENT PRIMARY KEY,
     `title`      VARCHAR(255) NOT NULL,
@@ -15,7 +15,7 @@ CREATE TABLE movies
 );
 
 -- actors table
-CREATE TABLE actors
+CREATE TABLE IF NOT EXISTS actors
 (
     `id`              INT AUTO_INCREMENT PRIMARY KEY,
     `movies_id`       INT          NOT NULL,
@@ -25,8 +25,7 @@ CREATE TABLE actors
     `height`          INT          NOT NULL,
     `awards`          VARCHAR(255),
     `social_networks` VARCHAR(255),
-    `image`           VARCHAR(255) NOT NULL,
-    FOREIGN KEY (movies_id) REFERENCES movies (id)
+    `image`           VARCHAR(255) NOT NULL
 );
 
 -- movies inserts

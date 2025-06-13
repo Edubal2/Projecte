@@ -23,7 +23,8 @@
                 <label for="movies">Película</label>
                 <select id="movies" name="movies_id">
                     {{for movies.movies}}  <!--Marca selected si esta película es la que tiene el actor-->
-                    <option value="{{:id}}" {{if ~root.actor.movies_id == id}}selected{{/if}}>{{:title}}</option>
+                    <option value="{{:id}}" {{if ~root.actor.movies_id== id}}selected{{
+                    /if}}>{{:title}}</option>
                     {{/for}}
                 </select>
 
@@ -139,7 +140,8 @@
                     <td>{{:height}} cm</td>
                     <td>{{:awards}}</td>
                     {{if social_networks}}
-                    <td><a href="{{:social_networks}}" target="_blank"><img src="/images/instagram.png" alt="instagram" class="icon"></a></td>
+                    <td><a href="{{:social_networks}}" target="_blank"><img src="/images/instagram.png" alt="instagram"
+                                                                            class="icon"></a></td>
                     {{else}}
                     <td></td>
                     {{/if}}
@@ -178,8 +180,6 @@
         let form = $("#add_actor_form");
 
         let parametros = form.serialize();
-
-        console.log(parametros);
 
         $.post('/api/actors/', parametros, function (result) {
             router.navigate('/')
@@ -240,15 +240,14 @@
 
                 let actor = dataActors[0];
 
-                           if (actor.birth_date) {
-                                 actor.birth_date = actor.birth_date.substring(0, 10);
-                               }
+                if (actor.birth_date) { // acota el formato date a solo dd/mm/yyyy
+                    actor.birth_date = actor.birth_date.substring(0, 10);
+                }
 
                 let data = {
                     'actor': actor,
                     'movies': dataMovies,
                 };
-                console.log(data);
 
                 let html = $("#modify_actors_template").render(data);
                 $("#app").html(html);
@@ -268,6 +267,7 @@
 
         });
     }
+
     $(document).ready(function () {
         router.navigate('/')
     });
