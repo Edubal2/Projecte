@@ -17,92 +17,92 @@
             <h1>Actores</h1>
             <!-- Modify Actor -->
             <script id="modify_actors_template" type="text/x-jsrender-template" >
-                <h1>Modify Actor {{:actor._id}}</h1>
+                <h1>Modificar Actor {{:actor._id}}</h1>
                 <form id="modifyActorForm">
-                    <input type="text" value="{{:actor._id}}" name="_id">
+                    <input type="hidden" value="{{:actor._id}}" name="_id">
 
-                    <label for="movie">Movie</label>
+                    <label for="movie">Película</label>
                     <select id="movie" name="movie">
                         {{for movies.movies}}  <!--Marca selected si esta película es la que tiene el actor-->
                         <option value="{{:title}}" {{if ~root.actor.movie == title}}selected{{/if}}>{{:title}}</option>
                         {{/for}}
                     </select>
 
-                    <label for="name">Name</label>
+                    <label for="name">Nombre</label>
                     <input type="text" id="name" name="name" value="{{:actor.name}}">
                     <br>
 
-                    <label for="nationality">Nationality</label>
+                    <label for="nationality">Nacionalidad</label>
                     <input type="text" id="nationality" name="nationality" value="{{:actor.nationality}}">
                     <br>
 
-                    <label for="birth_date">Birth Date</label>
+                    <label for="birth_date">Fecha de nacimiento</label>
                     <input type="date" id="birth_date" name="birth_date" value="{{:actor.birth_date}}">
                     <br>
 
-                    <label for="height">Height in cm</label>
+                    <label for="height">Altura en cm</label>
                     <input type="number" id="height" name="height" value="{{:actor.height}}">
                     <br>
 
-                    <label for="awards">Awards</label>
+                    <label for="awards">Premios</label>
                     <input type="text" id="awards" name="awards" value="{{:actor.awards}}">
                     <br>
 
-                    <label for="social_networks">Social Networks</label>
+                    <label for="social_networks">Redes Sociales</label>
                     <input type="text" id="social_networks" name="social_networks" value="{{:actor.social_networks}}">
                     <br>
 
-                    <label for="image">Image</label>
+                    <label for="image">Imagen</label>
                     <input type="text" id="image" name="image" value="{{:actor.image}}">
                     <br>
 
-                    <input type="submit" class="add_actor_submit" value="Modificar">
+                    <input type="submit" class="add_actor_submit button warning" value="Modificar">
 
-                    <a href="#/" class="button success mainButton">Cancelar</a>
+                    <a href="#/" class="button success">Cancelar</a>
 
                 </form>
             </script>
             <!-- Add Actor -->
             <script id="add_actors_template" type="text/x-jsrender-template">
-                <h1>Insert Actor</h1>
+                <h1>Insertar Actor</h1>
                 <form id="add_actor_form">
 
-                    <label for="movie">Movie</label>
+                    <label for="movie">Película</label>
                     <select id="movie" name="movie">
                         {{for movies}}
                         <option value="{{:title}}">{{:title}}</option>
                         {{/for}}
                     </select>
 
-                    <label for="name">Name</label>
+                    <label for="name">Nombre</label>
                     <input type="text" id="name" name="name">
                     <br>
 
-                    <label for="nationality">Nationality</label>
+                    <label for="nationality">Nacionalidad</label>
                     <input type="text" id="nationality" name="nationality">
                     <br>
 
-                    <label for="birth_date">Birth Date</label>
+                    <label for="birth_date">Fecha de nacimineto</label>
                     <input type="date" id="birth_date" name="birth_date">
                     <br>
 
-                    <label for="height">Height in cm</label>
+                    <label for="height">Altura en cm</label>
                     <input type="number" id="height" name="height">
                     <br>
 
-                    <label for="awards">Awards</label>
+                    <label for="awards">Premios</label>
                     <input type="text" id="awards" name="awards">
                     <br>
 
-                    <label for="social_networks">Social Networks</label>
+                    <label for="social_networks">Redes Sociales</label>
                     <input type="text" id="social_networks" name="social_networks">
                     <br>
 
-                    <label for="image">Image</label>
+                    <label for="image">Imagen</label>
                     <input type="text" id="image" name="image">
                     <br>
 
-                    <input type="submit" id="add_actor_form_submit" value="Añadir">
+                    <input class="button blue" type="submit" id="add_actor_form_submit" value="Añadir">
 
                     <a href="#/" class="button success mainButton">Cancelar</a>
 
@@ -111,23 +111,23 @@
             <!-- Show Actors-->
             <script id="show_actors_template" type="text/x-jsrender-template">
 
-                <a href="#/add" class="button mainButton">Añadir</a>
+                <a href="#/add" class="button blue">Añadir</a>
 
-                <a href="/" class="button success mainButton">Inicio</a>
+                <a href="/" class="button success">Inicio</a>
 
                 <table>
                     <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Name</th>
-                        <th>Movie</th>
-                        <th>Nationality</th>
-                        <th>Birth Date</th>
-                        <th>Height</th>
-                        <th>Awards</th>
-                        <th>Social Networks</th>
-                        <th>Image</th>
-                        <th>Actions</th>
+                        <th>Nombre</th>
+                        <th>Película</th>
+                        <th>Nacionalidad</th>
+                        <th>Fecha de nacimiento</th>
+                        <th>Altura</th>
+                        <th>Premios</th>
+                        <th>Redes Sociales</th>
+                        <th>Imagen</th>
+                        <th>Acciones</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -149,8 +149,8 @@
                         <td>
                             <!-- href="#" indica que el salto será a la página actual -->
                             <!-- data-id="" envía junto con el evento el valor id="" -->
-                            <a href="#/modify?id={{:_id}}" class="button warning" data-navigo>Modify</a>
-                            <a href="#/delete?id={{:_id}}" class="button error" data-navigo>Delete</a>
+                            <a href="#/modify?id={{:_id}}" class="button warning" data-navigo>Modificar</a>
+                            <a href="#/delete?id={{:_id}}" class="button error" data-navigo>Eliminar</a>
                         </td>
                     </tr>
                     {{/for}}

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Peliculas</title>
+    <title>Películas</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/picnic">
     <link rel="stylesheet" href="/stylesheets/style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -14,18 +14,18 @@
 <body>
 <div class="container">
     <div class="row">
-        <h1>Peliculas</h1>
+        <h1>Películas</h1>
         <!-- Modify Movie -->
         <script id="modify_movies_template" type="text/x-jsrender-template">
-            <h1>Modify Movie {{:movie._id}}</h1>
+            <h1>Modificar Película {{:movie._id}}</h1>
             <form id="modifyMovieForm">
                 <input type="hidden" value="{{:movie._id}}" name="_id">
 
-                <label for="title">Title</label>
+                <label for="title">Titulo</label>
                 <input type="text" id="title" name="title" value="{{:movie.title}}">
                 <br>
 
-                <label for="year">Year</label>
+                <label for="year">Año</label>
                 <input type="number" id="year" name="year" value="{{:movie.year}}">
                 <br>
 
@@ -33,28 +33,29 @@
                 <input type="text" id="director" name="director" value="{{:movie.director}}">
                 <br>
 
-                <label for="box_office">Box Office in millions</label>
+                <label for="box_office">Dinero en taquilla, en millones de dolares</label>
                 <input type="number" id="box_office" name="box_office" value="{{:movie.box_office}}">
                 <br>
 
-                <label for="image">Image</label>
+                <label for="image">Imagen</label>
                 <input type="text" id="image" name="image" value="{{:movie.image}}">
                 <br>
 
-                <input type="submit" class="add_movie_submit" value="Modificar">
+                <input type="submit" class="add_movie_submit button warning" value="Modificar">
 
-                <a href="#/" class="button success mainButton">Cancelar</a>
+                <a href="#/" class="button success">Cancelar</a>
             </form>
         </script>
         <!-- Add Movie -->
         <script id="add_movies_template" type="text/x-jsrender-template">
-            <h1>Insert Album</h1>
+            <h1>Insertar Pelícuyla</h1>
             <form id="add_movie_form">
-                <label for="title">Title</label>
+
+                <label for="title">Titulo</label>
                 <input type="text" id="title" name="title">
                 <br>
 
-                <label for="year">Year</label>
+                <label for="year">Año</label>
                 <input type="number" id="year" name="year">
                 <br>
 
@@ -62,37 +63,37 @@
                 <input type="text" id="director" name="director">
                 <br>
 
-                <label for="box_office">Box Office in millions</label>
+                <label for="box_office">Dinero en taquilla, en millones de dolares</label>
                 <input type="number" id="box_office" name="box_office">
                 <br>
 
-                <label for="image">Title</label>
+                <label for="image">Imagen</label>
                 <input type="text" id="image" name="image">
                 <br>
 
-                <input type="submit" id="add_movie_form_submit" value="Añadir">
+                <input class="button blue" type="submit" id="add_movie_form_submit" value="Añadir">
 
-                <a href="#/" class="button success mainButton">Cancelar</a>
+                <a href="#/" class="button success">Cancelar</a>
 
             </form>
         </script>
         <!-- Show Movie -->
         <script id="show_movies_template" type="text/x-jsrender-template">
 
-            <a href="#/add" class="button mainButton">Añadir</a>
+            <a href="#/add" class="button blue">Añadir</a>
 
-            <a href="/" class="button success mainButton">Inicio</a>
+            <a href="/" class="button success">Inicio</a>
 
             <table>
                 <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Title</th>
-                    <th>Year</th>
+                    <th>Titulo</th>
+                    <th>Año</th>
                     <th>Director</th>
-                    <th>Box Office</th>
-                    <th>Image</th>
-                    <th>Actions</th>
+                    <th>Dinero en Taquilla</th>
+                    <th>Imagen</th>
+                    <th>Acciones</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -107,8 +108,8 @@
                     <td>
                         <!-- href="#" indica que el salto será a la página actual -->
                         <!-- data-id="" envía junto con el evento el valor id="" -->
-                        <a href="#/modify?id={{:_id}}" class="button warning" data-navigo>Modify</a>
-                        <a href="#/delete?id={{:_id}}" class="button error" data-navigo>Delete</a>
+                        <a href="#/modify?id={{:_id}}" class="button warning" data-navigo>Modificar</a>
+                        <a href="#/delete?id={{:_id}}" class="button error" data-navigo>Eliminar</a>
                     </td>
                 </tr>
                 {{/for}}
