@@ -45,9 +45,9 @@ app.get('/api/movies', function(req, res) {
     db.select('m.id','m.title', 'm.year', 'm.director', 'm.box_office', 'm.image')
         .from('movies as m')
         .then(function(data) {
-           result = {}
-           result.movies=data;
-           res.json(result);
+            result = {}
+            result.movies=data;
+            res.json(result);
         }).catch(function (error) {
         console.log(error)
     });
@@ -60,9 +60,7 @@ app.get('/api/movies/:id', function(req, res) {
         .from('movies as m')
         .where('m.id', id)
         .then(function(data) {
-            result = {}
-            result.movies=data;
-            res.json(result);
+            res.json(data);
         }).catch(function (error) {
         console.log(error)
     });
@@ -103,10 +101,10 @@ app.post('/api/movies', function (req, res) {
 // Modify
 app.post('/api/movies/:id', function (req, res) {
     let id = req.params.id;
-    let artistData = req.body;
+    let movieData = req.body;
 
     db('movies')
-        .update(artistData)
+        .update(movieData)
         .where('id', id)
         .then(function (data) {
             res.json(data)
@@ -115,6 +113,7 @@ app.post('/api/movies/:id', function (req, res) {
             logger.error('ERROR:', error);
         })
 });
+
 
 // actors
 // GET
