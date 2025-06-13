@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Peliculas</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/picnic">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.15/jsrender.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-serialize-object/2.5.0/jquery.serialize-object.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/navigo/8.11.1/navigo.min.js"
+            referrerpolicy="no-referrer"></script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <h1>Peliculas</h1>
+        <!-- Modify Movie -->
+        <script id="modify_movies_template" type="text/x-jsrender-template">
+            <h1>Modify Movie {{:movie._id}}</h1>
+            <form id="modifyMovieForm">
+                <input type="hidden" value="{{:movie._id}}" name="_id">
+
+                <label for="title">Title</label>
+                <input type="text" id="title" name="title" value="{{:movie.title}}">
+                <br>
+
+                <label for="year">Year</label>
+                <input type="number" id="year" name="year" value="{{:movie.year}}">
+                <br>
+
+                <label for="director">Director</label>
+                <input type="text" id="director" name="director" value="{{:movie.director}}">
+                <br>
+
+                <label for="box_office">Box Office in millions</label>
+                <input type="number" id="box_office" name="box_office" value="{{:movie.box_office}}">
+                <br>
+
+                <label for="image">Image</label>
+                <input type="text" id="image" name="image" value="{{:movie.image}}">
+                <br>
+
+                <input type="submit" class="add_movie_submit" value="Modificar">
+
+                <a href="#/" class="button success mainButton">Cancelar</a>
+            </form>
+        </script>
+        <!-- Add Movie -->
+        <script id="add_movies_template" type="text/x-jsrender-template">
+            <h1>Insert Album</h1>
+            <form id="add_movie_form">
+                <label for="title">Title</label>
+                <input type="text" id="title" name="title">
+                <br>
+
+                <label for="year">Year</label>
+                <input type="number" id="year" name="year">
+                <br>
+
+                <label for="director">Director</label>
+                <input type="text" id="director" name="director">
+                <br>
+
+                <label for="box_office">Box Office in millions</label>
+                <input type="number" id="box_office" name="box_office">
+                <br>
+
+                <label for="image">Title</label>
+                <input type="text" id="image" name="image">
+                <br>
+
+                <input type="submit" id="add_movie_form_submit" value="Añadir">
+
+                <a href="#/" class="button success mainButton">Cancelar</a>
+
+            </form>
+        </script>
+        <!-- Show Movie -->
+        <script id="show_movies_template" type="text/x-jsrender-template">
+
+            <a href="#/add" class="button mainButton">Añadir</a>
+
+            <a href="/" class="button success mainButton">Inicio</a>
+
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Year</th>
+                    <th>Director</th>
+                    <th>Box Office</th>
+                    <th>Image</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{for movies}}
+                <tr>
+                    <td>{{:_id}}</td>
+                    <td>{{:title}}</td>
+                    <td>{{:year}}</td>
+                    <td>{{:director}}</td>
+                    <td>{{:box_office}} Millones de Dolares</td>
+                    <td><img src="{{:image}}"></td>
+                    <td>
+                        <!-- href="#" indica que el salto será a la página actual -->
+                        <!-- data-id="" envía junto con el evento el valor id="" -->
+                        <a href="#/modify?id={{:_id}}" class="button warning" data-navigo>Modify</a>
+                        <a href="#/delete?id={{:_id}}" class="button error" data-navigo>Delete</a>
+                    </td>
+                </tr>
+                {{/for}}
+                </tbody>
+            </table>
+        </script>
+
+        <div id="app"></div>
+
+    </div>
+</div>
+
+<script>
+    // Creacion del router como una constante
+    const router = new Navigo('/', {hash: true});
+
+    // SE definen las rutas
+    router
+        .on('/', showMovies)
+        .on('/movies.html', showMovies)
+        .on('/add', addMovies)
+        .on('/modify', showModifyMoviesForm)
+        .on('/delete', deleteMovies)
+        .resolve();
+
+    // ADD
+    function addMovieForm(event) {
+        event.preventDefault();
+        let form = $("#add_movie_form");
+
+        let parametros = form.serialize();
+
+        console.log(parametros);
+
+        $.post('/api/movies/', parametros, function (result) {
+            router.navigate('/')
+        }).catch(function (error) {
+            console.log(error)
+        })
+    }
+
+    function addMovies() {
+        $.getJSON('/api/movies/', function (movies) {
+            let html = $("#add_movies_template").render(movies);
+            $("#app").html(html);
+
+            $("#add_movie_form_submit").on("click", addMovieForm)
+        });
+    }
+
+    // DELETE
+    function deleteMovies(params) {
+
+        let id = params.params.id;
+
+        $.ajax({
+            url: '/api/movies/' + id,
+            type: 'DELETE'
+        }).then(function (result) {
+            router.navigate('/')
+        }).catch(function (error) {
+            console.log(error)
+        })
+    }
+
+    // MODIFY
+    function getModifyMoviesFormParams(event) {
+        event.preventDefault();
+
+        let form = $('#modifyMovieForm');
+
+        let params = form.serializeObject();
+
+        $.post('/api/movies/' + params._id, params, function (data) {
+            router.navigate('/')
+        }).catch(function (error) {
+            console.log(error)
+        });
+
+
+    }
+
+    function showModifyMoviesForm(params) {
+
+        let id = params.params.id;
+
+            $.getJSON('/api/movies/' + id, function (dataMovies) {
+
+                    let movie = dataMovies[0];
+
+                    let data = {'movie': movie,};
+
+                    let html = $("#modify_movies_template").render(data);
+                    $("#app").html(html);
+
+                    $('.add_movie_submit').on('click', getModifyMoviesFormParams);
+
+            });
+
+    }
+
+    // GET
+    function showMovies() {
+        $.getJSON('/api/movies/', function (data) {
+
+            let html = $("#show_movies_template").render(data);
+            $("#app").html(html);
+
+        });
+    }
+    $(document).ready(function () {
+        router.navigate('/')
+    });
+</script>
+</body>
+</html>
