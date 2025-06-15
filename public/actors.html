@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Actores</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/picnic">
+
     <link rel="stylesheet" href="/stylesheets/style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.15/jsrender.min.js"></script>
@@ -23,8 +23,7 @@
                 <label for="movies">Película</label>
                 <select id="movies" name="movies_id">
                     {{for movies.movies}}  <!--Marca selected si esta película es la que tiene el actor-->
-                    <option value="{{:id}}" {{if ~root.actor.movies_id== id}}selected{{
-                    /if}}>{{:title}}</option>
+                    <option value="{{:id}}" {{if ~root.actor.movies_id== id}}selected{{/if}}>{{:title}}</option>
                     {{/for}}
                 </select>
 
@@ -58,7 +57,7 @@
 
                 <input type="submit" class="add_actor_submit button warning" value="Modificar" data-id="{{:actor.id}}">
 
-                <a href="#/" class="button success mainButton">Cancelar</a>
+                <a href="#/" class="button success">Cancelar</a>
             </form>
         </script>
         <!-- Add Actor -->
@@ -111,7 +110,7 @@
 
             <a href="#/add" class="button blue">Añadir</a>
 
-            <a href="/" class="button success mainButton">Inicio</a>
+            <a href="/" class="button success">Inicio</a>
 
             <table>
                 <thead>
@@ -257,10 +256,8 @@
     // GET
     function showActors() {
         $.getJSON('/api/actors/', function (data) {
-
             let html = $("#show_actors_template").render(data);
             $("#app").html(html);
-
         });
     }
 
