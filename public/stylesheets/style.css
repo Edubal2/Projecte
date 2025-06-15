@@ -7,9 +7,9 @@
     --color-primary: #3f51b5;
     --color-secondary: #5c6bc0;
     --color-accent: #ff4081;
-    --color-warning: #ffa000;
-    --color-error: #e53935;
-    --color-success: #43a047;
+    --color-warning: #ff851b;
+    --color-error: #ff4136;
+    --color-success: #2ecc40;
     --color-text: #333;
     --shadow-soft: 0 4px 6px rgba(0, 0, 0, 0.1);
     --radius: 0.5rem;
@@ -70,16 +70,27 @@ h1 {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     border: none;
     cursor: pointer;
+    color: #fff;
+}
+
+.success {
+    background: var(--color-success);
+}
+
+.error {
+    background: var(--color-error);
+}
+
+.warning {
+    background: var(--color-warning);
 }
 
 .mainButton {
     background: var(--color-accent);
-    color: #fff;
 }
 
 .blue {
     background: var(--color-primary);
-    color: #fff;
 }
 
 .button:hover {
